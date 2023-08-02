@@ -1,2 +1,2 @@
-In this documentation, we will describe what each script is doing
+In this documentation, we will describe what each script is doing:
 
