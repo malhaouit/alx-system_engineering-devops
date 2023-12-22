@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Displays To infinity and beyond indefinitely with a sleep 2 in each iteration and I am invincible!!! when receiving a SIGTERM signal
+
+sigterm()
+{
+	echo "I am invincible!!!"
+}
+
+trap sigterm SIGTERM
+
+while true; do
+	echo "To infinity and beyond"
+	sleep 2
+done
