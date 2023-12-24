@@ -6,6 +6,6 @@
 
 for file_name in *; do
 	if [[ $file_name == *-* ]]; then
-		echo "$file_name" | cut -d '-' -f2
+		echo "$file_name" | cut -d "-" -f2-
 	fi
 done
