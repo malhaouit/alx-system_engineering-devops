@@ -5,7 +5,5 @@
 # Where only the part of the name after the first dash is displayed
 
 for file_name in *; do
-	if [[ $file_name == *-* ]]; then
-		echo "$file_name" | cut -d "-" -f2-
-	fi
+	echo "$file_name" | cut -d "-" -f2-
 done
