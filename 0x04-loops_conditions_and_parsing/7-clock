@@ -4,7 +4,7 @@
 # display minutes from 1 to 59
 
 hour=0
-while [ "$hour" -lt 12 ]; do
+while [ "$hour" -le 12 ]; do
 	case "$hour" in
 		0)
 			echo "Hour: $hour"
@@ -42,9 +42,12 @@ while [ "$hour" -lt 12 ]; do
 		11)
 			echo "Hour: $hour"
 			;;
+		12)
+			echo "Hour: $hour"
+			;;
 	esac
 
-	minute=0
+	minute=1
 	while [ "$minute" -lt 60 ]; do
 		echo "$minute"
 		((minute++))
