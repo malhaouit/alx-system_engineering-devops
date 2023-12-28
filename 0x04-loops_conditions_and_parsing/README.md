@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This project covers three important concepts in world of ***scripting, parsing and processing files***. To accomplish the tasks we need tools like ***while*** loop, ***for*** loop and other commands that are required to accomplish the tasks of this project. It includes 11 mandatory tasks and 4 advanced tasks. 
+This project covers three important concepts in world of scripting, parsing and processing files (***loops, conditions, and parsing***). To accomplish the tasks we will need some tools like ***while*** loop, ***for*** loop, ***if*** condition and other commands that are required to accomplish the tasks of this project. It includes **11** mandatory tasks and **4** advanced tasks. 
 
 **Note**: For more information about the privacy of this project see the README file of the repo.
 
