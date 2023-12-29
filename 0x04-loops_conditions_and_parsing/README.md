@@ -10,8 +10,12 @@ This project covers three important concepts in world of scripting, parsing and 
 
 ### Mandatory Tasks
 
-- Task 0: Create a SSH RSA key pair  
+- **Task 0:** Create a SSH RSA key pair  
 In this task we are asked to create a SSH RSA key pair (public key and privte key) using the command **ssh-keygen**. For more information take a look at the manual (man: ssh-keygen)
 
+- **Task 1:** For Best School loop  
+Write a Bash script that displays Best School 10 times. 
+Requirement:
+* You must use the for loop (while and until are forbidden).
 
 ### Advanced Tasks
