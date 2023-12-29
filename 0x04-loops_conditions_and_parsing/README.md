@@ -15,7 +15,14 @@ In this task we are asked to create a SSH RSA key pair (public key and privte ke
 
 - **Task 1:** `For Best School loop`  
 Write a Bash script that displays Best School 10 times.  
-	+ Requirement: 
-	You must use the for loop (while and until are forbidden).
+
+Requirement:  
++ You must use the for loop (while and until are forbidden).
+
+- **Task 2:** `While Best School loop`
+Write a Bash script that displays Best School 10 times.
+
+Requirements:
++ You must use the while loop (for and until are forbidden)
 
 ### Advanced Tasks
