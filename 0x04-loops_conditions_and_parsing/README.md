@@ -4,14 +4,14 @@
 
 This project covers three important concepts in world of scripting, parsing and processing files (***loops, conditions, and parsing***). To accomplish the tasks we will need some tools like ***while*** loop, ***for*** loop, ***if*** condition and other commands that are required to accomplish the tasks of this project. It includes **11** mandatory tasks and **4** advanced tasks. 
 
-**Note**: For more information about the privacy of this project see the README file of the repo.
+**Note**: For more information about the privacy of this project and other related projects see the README file of the repo.
 
 ## Project Structure
 
 ### Mandatory Tasks
 
-- Task 0: Brief detail
-- Task 1: Brief details
-- ...
+- Task 0: Create a SSH RSA key pair  
+In this task we are asked to create a SSH RSA key pair (public key and privte key) using the command **ssh-keygen**. For more information take a look at the manual (man: ssh-keygen)
+
 
 ### Advanced Tasks
