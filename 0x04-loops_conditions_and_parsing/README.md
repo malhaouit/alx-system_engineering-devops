@@ -19,17 +19,17 @@ Write a Bash script that displays Best School 10 times.
 	Requirement:  
 	> You must use the for loop (while and until are forbidden)
 
-- **Task 2:** `While Best School loop`
+- **Task 2:** `While Best School loop`  
 Write a Bash script that displays Best School 10 times.  
 
 	Requirement:
 	> You must use the while loop (for and until are forbidden)
 
-- **Task 3:** `While Best School loop`  
+- **Task 3:** `Until Best School loop`  
 Write a Bash script that displays Best School 10 times.  
 
 	Requirement:
-	> You must use the while loop (for and until are forbidden)
+	> You must use the until loop (for and while are forbidden)
 
 - **Task 4:** `Until Best School loop`  
 Write a Bash script that displays Best School 10 times.  
@@ -37,14 +37,14 @@ Write a Bash script that displays Best School 10 times.
 	Requirement:
 	> You must use the until loop (for and while are forbidden)
 
-- **Task 5:** `If 9, say Hi!`  
+- **Task 4:** `If 9, say Hi!`  
 Write a Bash script that displays Best School 10 times, but for the 9th iteration, displays Best School and then Hi on a new line.  
 
 	Requirements:
 	> You must use the while loop (for and until are forbidden)  
 	> You must use the if statement
 
-- **Task 6:** `4 bad luck, 8 is your chance`  
+- **Task 5:** `4 bad luck, 8 is your chance`  
 Write a Bash script that loops from 1 to 10 and:  
 	+ displays bad luck for the 4th loop iteration  
 	+ displays good luck for the 8th loop iteration  
@@ -54,7 +54,7 @@ Write a Bash script that loops from 1 to 10 and:
 	> You must use the while loop (for and until are forbidden)  
 	> You must use the if, elif and else statements  
 
-- **Task 7:** `Superstitious numbers`  
+- **Task 6:** `Superstitious numbers`  
 Write a Bash script that displays numbers from 1 to 20 and:  
 	+ displays 4 and then bad luck from China for the 4th loop iteration  
 	+ displays 9 and then bad luck from Japan for the 9th loop iteration  
@@ -64,7 +64,7 @@ Write a Bash script that displays numbers from 1 to 20 and:
 	> You must use the while loop (for and until are forbidden)  
 	> You must use the case statement  
 
-- **Task 8:** `Clock`  
+- **Task 7:** `Clock`  
 Write a Bash script that displays the time for 12 hours and 59 minutes:  
 	+ display hours from 0 to 12  
 	+ display minutes from 1 to 59  
@@ -72,7 +72,7 @@ Write a Bash script that displays the time for 12 hours and 59 minutes:
 	Requirements:  
 	> You must use the while loop (for and until are forbidden)  
 
-- **Task 9:** `For ls`  
+- **Task 8:** `For ls`  
 Write a Bash script that displays:  
 	+ The content of the current directory  
 	+ In a list format  
@@ -82,7 +82,7 @@ Write a Bash script that displays:
 	> You must use the for loop (while and until are forbidden)  
 	> Do not display hidden files  
 
-- **Task 10:** `To file, or not to file`  
+- **Task 9:** `To file, or not to file`  
 Write a Bash script that gives you information about the school file.  
 
 	Requirements:  
@@ -96,7 +96,7 @@ Write a Bash script that gives you information about the school file.
 		\* if the file is a regular file: "school is a regular file"  
 		\* if the file is not a regular file: (nothing)  
 
-- **Task 11:** `FizzBuzz`  
+- **Task 10:** `FizzBuzz`  
 Write a Bash script that displays numbers from 1 to 100.  
 
 	Requirements:  
@@ -107,4 +107,39 @@ Write a Bash script that displays numbers from 1 to 100.
 	> In a list format
 	
 
-### Advanced Tasks
+### Advanced Tasks  
+
+- **Task 11:** `Read and cut`  
+Write a Bash script that displays the content of the file /etc/passwd.  
+
+Your script should only display:  
+	+ username  
+	+ user id  
+	+ Home directory path for the user  
+
+	Requirements:  	
+	> You must use the while loop (for and until are forbidden)  
+
+- **Task 12:** `Tell the story of passwd`
+Write a Bash script that displays the content of the file /etc/passwd, using the while loop + IFS.  
+
+Format: The user USERNAME is part of the GROUP_ID gang, lives in HOME_DIRECTORY and rides COMMAND/SHELL. USER ID's place is protected by the passcode PASSWORD, more info about the user here: USER ID INFO    
+
+	Requirements:  
+	> You must use the while loop (for and until are forbidden)  
+
+- **Task 13:** `Let's parse Apache logs`  
+Apache is among the most popular web servers in the world.  
+As a Full-Stack Software Engineer, you have to master the art of parsing log files. Today we will do a simple parsing of Apache log access files (the link to download the Apache log file for processing: http://intranet-projects-files.s3.amazonaws.com/holbertonschool-sysadmin_devops/80/apache-access.log)  
+
+	Requirement:  
+	+ Format: IP HTTP_CODE  
+		\* in a list format  
+	+ You must use awk  
+	+ You are not allowed to use while, for, until and cut  
+	+ Download and commit the apache-access.log file along with your answers files  
+
+- **Task 14:** `Dig the data`  
+Now that we’ve parsed the Apache log file, let’s sort the data so we can get a better idea of what is going on.  
+
+
