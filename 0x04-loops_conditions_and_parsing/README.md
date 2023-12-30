@@ -133,13 +133,21 @@ Apache is among the most popular web servers in the world.
 As a Full-Stack Software Engineer, you have to master the art of parsing log files. Today we will do a simple parsing of Apache log access files (the link to download the Apache log file for processing: http://intranet-projects-files.s3.amazonaws.com/holbertonschool-sysadmin_devops/80/apache-access.log)  
 
 	Requirement:  
-	+ Format: IP HTTP_CODE  
+	> Format: IP HTTP_CODE  
 		\- in a list format  
-	+ You must use awk  
-	+ You are not allowed to use while, for, until and cut  
-	+ Download and commit the apache-access.log file along with your answers files  
+	> You must use awk  
+	> You are not allowed to use while, for, until and cut  
+	> Download and commit the apache-access.log file along with your answers files  
 
 - **Task 14:** `Dig the data`  
 Now that we’ve parsed the Apache log file, let’s sort the data so we can get a better idea of what is going on.  
 
+	Using what you did in the previous exercise, write a Bash script that groups visitors by IP and HTTP status code, and displays this data.  
 
+	Requirements:  
+	> The exact format must be:  
+		\- OCCURENCE_NUMBER IP HTTP_CODE  
+		\- In list format  
+	> Ordered from the greatest to the lowest number of occurrences  
+	> You must use awk  
+	> You are not allowed to use while, for, until and cut
