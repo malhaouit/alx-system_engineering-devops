@@ -76,7 +76,7 @@ Write a Bash script that displays the time for 12 hours and 59 minutes:
 Write a Bash script that displays:  
 	+ The content of the current directory  
 	+ In a list format  
-	+ Where only the part of the name after the first dash is displayed (refer to the example)  
+	+ Where only the part of the name after the first dash is displayed  
 
 	Requirements:  
 	> You must use the for loop (while and until are forbidden)  
@@ -88,13 +88,13 @@ Write a Bash script that gives you information about the school file.
 	Requirements:  
 	+ You must use if and, else (case is forbidden)  
 	+ Your Bash script should check if the file exists and print:  
-		\* if the file exists: "school file exists"  
-		\* if the file does not exist: "school file does not exist"  
+		\- if the file exists: "school file exists"  
+		\- if the file does not exist: "school file does not exist"  
 	+ If the file exists, print:  
-		\* if the file is empty: "school file is empty"   
-		\* if the file is not empty: "school file is not empty"   
-		\* if the file is a regular file: "school is a regular file"  
-		\* if the file is not a regular file: (nothing)  
+		\- if the file is empty: "school file is empty"   
+		\- if the file is not empty: "school file is not empty"   
+		\- if the file is a regular file: "school is a regular file"  
+		\- if the file is not a regular file: (nothing)  
 
 - **Task 10:** `FizzBuzz`  
 Write a Bash script that displays numbers from 1 to 100.  
@@ -112,7 +112,7 @@ Write a Bash script that displays numbers from 1 to 100.
 - **Task 11:** `Read and cut`  
 Write a Bash script that displays the content of the file /etc/passwd.  
 
-Your script should only display:  
+	Your script should only display:  
 	+ username  
 	+ user id  
 	+ Home directory path for the user  
@@ -120,7 +120,7 @@ Your script should only display:
 	Requirements:  	
 	> You must use the while loop (for and until are forbidden)  
 
-- **Task 12:** `Tell the story of passwd`
+- **Task 12:** `Tell the story of passwd`  
 Write a Bash script that displays the content of the file /etc/passwd, using the while loop + IFS.  
 
 Format: The user USERNAME is part of the GROUP_ID gang, lives in HOME_DIRECTORY and rides COMMAND/SHELL. USER ID's place is protected by the passcode PASSWORD, more info about the user here: USER ID INFO    
@@ -128,7 +128,7 @@ Format: The user USERNAME is part of the GROUP_ID gang, lives in HOME_DIRECTORY 
 	Requirements:  
 	> You must use the while loop (for and until are forbidden)  
 
-- **Task 13:** `Let's parse Apache logs`  
+- **Task 13:** `Let's parse Apache logs`   
 Apache is among the most popular web servers in the world.  
 As a Full-Stack Software Engineer, you have to master the art of parsing log files. Today we will do a simple parsing of Apache log access files (the link to download the Apache log file for processing: http://intranet-projects-files.s3.amazonaws.com/holbertonschool-sysadmin_devops/80/apache-access.log)  
 
