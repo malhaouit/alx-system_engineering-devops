@@ -123,7 +123,7 @@ Write a Bash script that displays the content of the file /etc/passwd.
 - **Task 12:** `Tell the story of passwd`  
 Write a Bash script that displays the content of the file /etc/passwd, using the while loop + IFS.  
 
-Format: The user USERNAME is part of the GROUP_ID gang, lives in HOME_DIRECTORY and rides COMMAND/SHELL. USER ID's place is protected by the passcode PASSWORD, more info about the user here: USER ID INFO    
+	Format: The user USERNAME is part of the GROUP_ID gang, lives in HOME_DIRECTORY and rides COMMAND/SHELL. USER ID's place is protected by the passcode PASSWORD, more info about the user here: USER ID INFO  
 
 	Requirements:  
 	> You must use the while loop (for and until are forbidden)  
@@ -134,7 +134,7 @@ As a Full-Stack Software Engineer, you have to master the art of parsing log fil
 
 	Requirement:  
 	+ Format: IP HTTP_CODE  
-		\* in a list format  
+		\- in a list format  
 	+ You must use awk  
 	+ You are not allowed to use while, for, until and cut  
 	+ Download and commit the apache-access.log file along with your answers files  
