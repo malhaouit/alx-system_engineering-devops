@@ -86,15 +86,15 @@ Write a Bash script that displays:
 Write a Bash script that gives you information about the school file.  
 
 	Requirements:  
-	+ You must use if and, else (case is forbidden)  
-	+ Your Bash script should check if the file exists and print:  
-		\- if the file exists: "school file exists"  
-		\- if the file does not exist: "school file does not exist"  
-	+ If the file exists, print:  
-		\- if the file is empty: "school file is empty"   
-		\- if the file is not empty: "school file is not empty"   
-		\- if the file is a regular file: "school is a regular file"  
-		\- if the file is not a regular file: (nothing)  
+	> You must use if and, else (case is forbidden)  
+	> Your Bash script should check if the file exists and print:  
+		> \- if the file exists: "school file exists"  
+		> \- if the file does not exist: "school file does not exist"  
+	> If the file exists, print:  
+		> \- if the file is empty: "school file is empty"   
+		> \- if the file is not empty: "school file is not empty"   
+		> \- if the file is a regular file: "school is a regular file"  
+		> \- if the file is not a regular file: (nothing)  
 
 - **Task 10:** `FizzBuzz`  
 Write a Bash script that displays numbers from 1 to 100.  
@@ -134,7 +134,7 @@ As a Full-Stack Software Engineer, you have to master the art of parsing log fil
 
 	Requirement:  
 	> Format: IP HTTP_CODE  
-		\- in a list format  
+		> \- in a list format  
 	> You must use awk  
 	> You are not allowed to use while, for, until and cut  
 	> Download and commit the apache-access.log file along with your answers files  
@@ -146,8 +146,8 @@ Now that we’ve parsed the Apache log file, let’s sort the data so we can get
 
 	Requirements:  
 	> The exact format must be:  
-		\- OCCURENCE_NUMBER IP HTTP_CODE  
-		\- In list format  
+		> \- OCCURENCE_NUMBER IP HTTP_CODE  
+		> \- In list format  
 	> Ordered from the greatest to the lowest number of occurrences  
 	> You must use awk  
 	> You are not allowed to use while, for, until and cut
