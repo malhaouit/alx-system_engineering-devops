@@ -14,10 +14,26 @@ This project includes 8 **mandatory** tasks and 1 **advanced** tasks.
 ### Mandatory Tasks
 
 - **Task 0:** __Simply matching School__  
-	+ File: [0-simply_match_school.rb]()  
+	+ File: [0-simply_match_school.rb](https://github.com/malhaouit/alx-system_engineering-devops/blob/master/0x06-regular_expressions/0-simply_match_school.rb)  
 
-	Requirements:
-		+ The regular expression must match `School`
-		+ Create a Ruby script that accepts one argument and pass it to a regular expression matching method
+	Requirements:  
+		+ The regular expression must match `School`  
+		+ Create a Ruby script that accepts one argument and pass it to a regular expression matching method  
 
+- **Task 1:** __Repetition Token #0__  
+	+ File: [1-repetition_token_0.rb]()  
+
+	Requirements:  
+		+ Find the regular expression that will match the next cases:  
+			hbn  
+			hbtn  
+			`hbttn  
+			hbtttn  
+			hbttttn  
+			hbtttttn` 
+			hbttttttn  
+
+		+ Using the project instructions, create a Ruby script that accepts one argument and pass it to a regular expression matching method 
+
+	
 
