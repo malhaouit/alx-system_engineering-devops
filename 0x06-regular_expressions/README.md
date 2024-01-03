@@ -24,16 +24,13 @@ This project includes 8 **mandatory** tasks and 1 **advanced** tasks.
 	+ File: [1-repetition_token_0.rb]()  
 
 	Requirements:  
-		+ Find the regular expression that will match the next cases in bold style:  
-			hbn  
-			hbtn  
-			**hbttn**  
-			**hbtttn**  
-			**hbttttn**  
-			**hbtttttn**  
-			hbttttttn  
+		+ Find the regular expression that will match the next cases:  
+				hbn  
+				hbtn  
+				`hbttn`  
+				`hbtttn`  
+				`hbttttn`  
+				`hbtttttn`  
+				hbttttttn  
 
-		+ Using the project instructions, create a Ruby script that accepts one argument and pass it to a regular expression matching method 
-
-	
-
+	+ Using the project instructions, create a Ruby script that accepts one argument and pass it to a regular expression matching method 
