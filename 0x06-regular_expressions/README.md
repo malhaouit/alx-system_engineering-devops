@@ -21,7 +21,7 @@ This project includes 8 **mandatory** tasks and 1 **advanced** tasks.
 	+ Create a Ruby script that accepts one argument and pass it to a regular expression matching method  
 
 - **Task 1:** __Repetition Token #0__  
-	+ File: [1-repetition_token_0.rb]()  
+	+ File: [1-repetition_token_0.rb](https://github.com/malhaouit/alx-system_engineering-devops/blob/master/0x06-regular_expressions/1-repetition_token_0.rb)  
 
 	Requirements:  
 	+ Find the regular expression that will match the next cases pointed by the arrow:  
@@ -35,18 +35,18 @@ This project includes 8 **mandatory** tasks and 1 **advanced** tasks.
 
 	+ Using the project instructions, create a Ruby script that accepts one argument and pass it to a regular expression matching method  
 
-- **Task:** __Repetition Token #1__  
-	+ File: [2-repetition_token_1.rb]()  
+- **Task 2:** __Repetition Token #1__  
+	+ File: [2-repetition_token_1.rb](https://github.com/malhaouit/alx-system_engineering-devops/blob/master/0x06-regular_expressions/2-repetition_token_1.rb)  
 
 	Requirements:  
 	+ Find the regular expression that will match the next cases pointed by the arrow:  
-	`htn`  <--
-	`hbtn`  <--
+	`htn`  <--  
+	`hbtn`  <--  
 	`hbbtn`  
-	`hbbbtn`  
+	`hbbbtn`   
 
-- **Task:**  
-	+ File: [3-repetition_token_2.rb]()  
+- **Task: 3**  __Repetition Token #2__
+	+ File: [3-repetition_token_2.rb](https://github.com/malhaouit/alx-system_engineering-devops/blob/master/0x06-regular_expressions/3-repetition_token_2.rb)  
 
 	Requirements:  
 	+ Find the regular expression that will match the next cases pointed by the arrow:  
@@ -57,4 +57,16 @@ This project includes 8 **mandatory** tasks and 1 **advanced** tasks.
 	`hbtttn`  <--  
 	`hbttttn`  <--  
 
-	+ Using the project instructions, create a Ruby script that accepts one argument and pass it to a regular expression matching method
+	+ Using the project instructions, create a Ruby script that accepts one argument and pass it to a regular expression matching method  
+
+- **Task 4:** __Repetition Token #3__
+	+ File: [4-repetition_token_3.rb](https://github.com/malhaouit/alx-system_engineering-devops/blob/master/0x06-regular_expressions/4-repetition_token_3.rb)  
+
+	Requirements:  
+	+ Find the regular expression that will match the next cases pointed by the arrow:  
+	`hbn`
+	`hbon`
+	`hbtn`
+	`hbttn`
+	`hbtttn`
+	`hbttttn`
