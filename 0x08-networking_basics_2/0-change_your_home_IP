@@ -2,6 +2,11 @@
 # Resolves localhost to 127.0.0.2
 # Resolves  facebook.com to 8.8.8.8
 
-echo "127.0.0.2		localhost" | sudo tee -a /etc/hosts
+cp /etc/hosts ~/hosts.backup
 
-echo "8.8.8.8 facebook.com" | sudo tee -a /etc/hosts
+echo "127.0.0.2		localhost" > ~/hosts.new
+echo "8.8.8.8		facebook.com" >> ~/hosts.new
+
+grep -v '^127.0.0.1\s\+localhost' /etc/hosts >> ~/hosts.new
+
+cp -f ~/hosts.new /etc/hosts
