@@ -1,7 +1,6 @@
 #!/usr/bin/pup
-# This manifest installs Flask version 2.1.0 using pip3
-
-package { 'flask':
+# Install flask version 2.1.0 using pip3
+package {'flask':
   ensure   => '2.1.0',
   provider => 'pip3'
 }
