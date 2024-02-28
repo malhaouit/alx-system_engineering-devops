@@ -1,6 +1,6 @@
 # Install Nginx web server.
 
-package { 'nginx-installation':
+package { 'nginx':
   ensure => 'installed',
 }
 
@@ -18,7 +18,7 @@ file_line { 'add-rewrite':
   notify  => Service['nginx'],
 }
 
-service { 'nginx-running':
+service { 'nginx':
   ensure  => running,
   require => File_line['add-rewrite'],
 }
