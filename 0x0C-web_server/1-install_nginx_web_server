@@ -10,4 +10,4 @@ echo "Hello World!" > /var/www/html/index.html
 sed -i '/listen \[::\]:80 default_server;/a \\tlisten 80;' /etc/nginx/sites-available/default
 sed -i 's/listen \[::\]:80 default_server;/listen [::]:80;/' /etc/nginx/sites-available/default
 
-service nginx restart
+service nginx reload
