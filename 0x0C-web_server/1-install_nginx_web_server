@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# This script installs and configures Nginx to serve 'Hello World' on port 80
+
+apt-get update -y
+
+apt-get install nginx -y
+
+echo "Hello World!" > /var/www/html/index.html
+
+sed -i '/listen \[::\]:80 default_server;/a \\tlisten 80;' /etc/nginx/sites-available/default
+sed -i 's/listen \[::\]:80 default_server;/listen [::]:80;/' /etc/nginx/sites-available/default
+
+service nginx restart
