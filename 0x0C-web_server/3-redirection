@@ -1,20 +1,37 @@
 #!/usr/bin/env bash
-# Configures a brand new Ubuntu machine with Nginx to redirect /redirect_me to another page with a 301 Moved Permanently status.
+# This script installs and configures Nginx to serve 'Hello World' on port 80
+# and redirects /redirect_me to another page with a 301 Moved Permanently status.
 
 if [ "$(id -u)" != "0" ]; then
-	   echo "This script must be run as root" 1>&2
-	      exit 1
+exit 1
 fi
 
 apt-get update -y
 apt-get install nginx -y
-
 ufw allow 'Nginx HTTP'
+echo "Hello World!" > /var/www/html/index.html
+rm -f /etc/nginx/sites-enabled/default
 
-file="/etc/nginx/sites-available/default"
+cat << EOF > /etc/nginx/sites-available/default
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
 
-redirect_string='location \/redirect_me { return 301 https:\/\/www.newsite.com; }'
+	root /var/www/html;
+	index index.html;
 
-sed -i "/server_name _;/a $redirect_string" $file
+	server_name _;
 
-service nginx reload
+	location / {
+		try_files \$uri \$uri/ =404;
+	}
+
+	location /redirect_me {
+		return 301 https://www.newsite.com;
+	}
+}
+EOF
+
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+nginx -t
+service nginx restart
