@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# Configures Nginx to serve a custom 404 page and add a custom header 'X-Served-By'
+
+# Ensure the script is run as root
+if [ "$(id -u)" != "0" ]; then
+    echo "This script must be run as root" 1>&2
+    exit 1
+fi
+
+# Update package list and install Nginx
+apt-get update -y
+apt-get install nginx -y
+
+# Allow HTTP traffic through the firewall
+ufw allow 'Nginx HTTP'
+
+# Create an index.html file
+echo "Hello World!" > /var/www/html/index.html
+
+# Create a custom 404 page
+echo "Ceci n'est pas une page" > /var/www/html/404.html
+
+# Fetch the hostname of the server
+HOSTNAME=$(hostname)
+
+# Configure Nginx with a custom header 'X-Served-By'
+cat << EOF > /etc/nginx/sites-available/default
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html;
+
+    server_name _;
+
+    # Custom header
+    add_header X-Served-By $HOSTNAME;
+
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+
+    location /redirect_me {
+        return 301 https://www.newsite.com;
+    }
+
+    error_page 404 /404.html;
+
+    location = /404.html {
+        internal;
+    }
+}
+EOF
+
+# Enable the Nginx configuration and restart the service
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+nginx -t && service nginx restart
