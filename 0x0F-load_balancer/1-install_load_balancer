@@ -38,7 +38,7 @@ frontend am-trustdev.tech-frontend
     bind *:80
     default_backend am-trustdev.tech-backend
 
-backend am-trustdev-tech-backend
+backend am-trustdev.tech-backend
     balance roundrobin
     server 512139-web-01 54.174.153.120:80 check
     server 512139-web-02 18.204.14.78:80 check
