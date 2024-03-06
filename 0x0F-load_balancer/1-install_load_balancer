@@ -1,59 +1,69 @@
 #!/usr/bin/env bash
-# install load balancer
+# Script to install and configure HAProxy as a load balancer
 
+echo "Checking if HAProxy is installed..."
+if ! command -v haproxy &> /dev/null; then
+	echo "HAProxy not found. Installing..."
+	apt-get update -y
+	apt-get install -y haproxy
+else
+	echo "HAProxy is already installed. Skipping installation."
+fi
 
-echo -e "Updating and doing some minor checks...\n"
+# Enables HAProxy to start at boot
+echo "Enabling HAProxy to start at boot..."
+systemctl enable haproxy
 
-function install() {
-	command -v "$1" &> /dev/null
+# Backup the current HAProxy configuration
+echo "Backing up current HAProxy configuration..."
+cp /etc/haproxy/haproxy.cfg{,.backup_"$(date +%F-%H-%M-%S)"}
 
-	#shellcheck disable=SC2181
-	if [ $? -ne 0 ]; then
-		echo -e "	Installing: $1\n"
-		sudo apt-get update -y -qq && \
-			sudo apt-get install -y "$1" -qq
-		echo -e "\n"
-	else
-		echo -e "	${1} is already installed.\n"
-	fi
-}
+echo "Configuring HAProxy..."
+# New HAProxy configuration
+cat << EOF > /etc/haproxy/haproxy.cfg
+global
+	log /dev/log local0 notice
+	log /dev/log local1 info
+	chroot /var/lib/haproxy
+	stats socket /run/haproxy/admin.sock mode 660 level admin expose-fd listeners
+	user haproxy
+	group haproxy
+	daemon
+	maxconn 256
 
-install haproxy #install haproxy
-
-echo -e "\nSetting up some minor stuff.\n"
-
-# backup default server config file
-sudo cp /etc/haproxy/haproxy.cfg haproxy_default.backup
-
-server_config=\
-"
 defaults
-  mode http
-  timeout client 15s
-  timeout connect 10s
-  timeout server 15s
-  timeout http-request 10s
+	log     global
+	mode    http
+	option  httplog
+	option  dontlognull
+	timeout connect 5000ms
+	timeout client  50000ms
+	timeout server  50000ms
+	errorfile 400 /etc/haproxy/errors/400.http
+	errorfile 403 /etc/haproxy/errors/403.http
+	errorfile 408 /etc/haproxy/errors/408.http
+	errorfile 500 /etc/haproxy/errors/500.http
+	errorfile 502 /etc/haproxy/errors/502.http
+	errorfile 503 /etc/haproxy/errors/503.http
+	errorfile 504 /etc/haproxy/errors/504.http
 
 frontend am-trustdev.tech-frontend
-    bind *:80
-    default_backend am-trustdev.tech-backend
+	bind *:80
+	default_backend am-trustdev.tech-backend
 
 backend am-trustdev.tech-backend
-    balance roundrobin
-    server 512139-web-01 54.174.153.120:80 check
-    server 512139-web-02 18.204.14.78:80 check
-"
+	balance roundrobin
+	server 512139-web-01 54.174.153.120:80 check
+	server 512139-web-02 18.204.14.78:80 check
+EOF
 
-# shellcheck disable=SC2154
-echo "$server_config" | sudo dd status=none of=/etc/haproxy/haproxy.cfg
-
-# enable haproxy to be started by init script
-echo "ENABLED=1" | sudo dd status=none of=/etc/default/haproxy
-
-echo "configured - Roundrobin On web-01 & web-02"
-
-if [ "$(pgrep -c haproxy)" -le 0 ]; then
-	sudo service haproxy start
+# Checks if HAProxy is active before attempting to restart
+if systemctl is-active --quiet haproxy; then
+	echo "Restarting HAProxy to apply new configuration..."
+	systemctl restart haproxy
 else
-	sudo service haproxy restart
+	echo "Starting HAProxy..."
+	systemctl start haproxy
 fi
+
+echo "HAProxy configuration completed."
