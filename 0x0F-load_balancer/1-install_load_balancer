@@ -1,55 +1,21 @@
 #!/usr/bin/env bash
-# Ensures the script is run as root
-if [ "$(id -u)" != "0" ]; then
-        echo "This script must be run as root" 1>&2
-        exit 1
-fi
+# Script that installs and configures HAproxy.
 
-# Updates package list and installs HAProxy
-apt-get update -y
-apt-get install -y haproxy
+# Install HAproxy on
+apt-get -y update
+apt-get -y install haproxy=2.6.\*
 
-# Enables HAProxy to start at boot
-systemctl enable haproxy
+# Configure haproxy
+echo '
+frontend am-trustdev.tech
+	bind *:80
+	default_backend web_servers
 
-# Configures HAProxy
-cat << EOF > /etc/haproxy/haproxy.cfg
-global
-    log /dev/log local0
-    log /dev/log local1 notice
-    chroot /var/lib/haproxy
-    stats socket /run/haproxy/admin.sock mode 660 level admin expose-fd listeners
-    user haproxy
-    group haproxy
-    daemon
-    maxconn 256
+backend web_servers
+	balance roundrobin
+	server 512139-web-01 54.174.153.120:80 check
+	server 512139-web-02 18.204.14.78:80 check
+' >> /etc/haproxy/haproxy.cfg
 
-defaults
-    log     global
-    mode    http
-    option  httplog
-    option  dontlognull
-    timeout connect 5000ms
-    timeout client  50000ms
-    timeout server  50000ms
-    errorfile 400 /etc/haproxy/errors/400.http
-    errorfile 403 /etc/haproxy/errors/403.http
-    errorfile 408 /etc/haproxy/errors/408.http
-    errorfile 500 /etc/haproxy/errors/500.http
-    errorfile 502 /etc/haproxy/errors/502.http
-    errorfile 503 /etc/haproxy/errors/503.http
-    errorfile 504 /etc/haproxy/errors/504.http
-
-frontend http_front
-    bind *:80
-    stats uri /haproxy?stats
-    default_backend servers
-
-backend servers
-    balance roundrobin
-    server web-01 54.174.153.120:80 check
-    server web-02 18.204.14.78:80 check
-EOF
-
-# Restarts HAProxy to apply the configuration
-systemctl restart haproxy
+# Restart HAproxy service
+service haproxy restart
