@@ -1,38 +1,55 @@
 #!/usr/bin/env bash
-# Install and configure HAproxy on your lb-01 server
-
+# Ensures the script is run as root
 if [ "$(id -u)" != "0" ]; then
-	    echo "This script must be run as root" 1>&2
-	        exit 1
+        echo "This script must be run as root" 1>&2
+        exit 1
 fi
 
+# Updates package list and installs HAProxy
 apt-get update -y
-apt-get install --no-install-recommends -y software-properties-common
-add-apt-repository -y ppa:vbernat/haproxy-2.6
-apt-get update -y
-apt-get install -y haproxy=2.6.*
+apt-get install -y haproxy
 
-HA_CFG="/etc/haproxy/haproxy.cfg"
-FRONT_EXISTS=$(grep -c "frontend http_front" "$HA_CFG")
-BACK_EXISTS=$(grep -c "backend http_back" "$HA_CFG")
+# Enables HAProxy to start at boot
+systemctl enable haproxy
 
-if [ "$FRONT_EXISTS" -eq 0 ] && [ "$BACK_EXISTS" -eq 0 ]; then
-	    cat <<EOF >> "$HA_CFG"
+# Configures HAProxy
+cat << EOF > /etc/haproxy/haproxy.cfg
+global
+    log /dev/log local0
+    log /dev/log local1 notice
+    chroot /var/lib/haproxy
+    stats socket /run/haproxy/admin.sock mode 660 level admin expose-fd listeners
+    user haproxy
+    group haproxy
+    daemon
+    maxconn 256
+
+defaults
+    log     global
+    mode    http
+    option  httplog
+    option  dontlognull
+    timeout connect 5000ms
+    timeout client  50000ms
+    timeout server  50000ms
+    errorfile 400 /etc/haproxy/errors/400.http
+    errorfile 403 /etc/haproxy/errors/403.http
+    errorfile 408 /etc/haproxy/errors/408.http
+    errorfile 500 /etc/haproxy/errors/500.http
+    errorfile 502 /etc/haproxy/errors/502.http
+    errorfile 503 /etc/haproxy/errors/503.http
+    errorfile 504 /etc/haproxy/errors/504.http
 
 frontend http_front
     bind *:80
     stats uri /haproxy?stats
-    default_backend http_back
+    default_backend servers
 
-backend http_back
+backend servers
     balance roundrobin
-    server 512139-web-01 54.174.153.120:80 check
-    server 512139-web-02 18.204.14.78:80 check
+    server web-01 54.174.153.120:80 check
+    server web-02 18.204.14.78:80 check
 EOF
-else
-    echo "Frontend or Backend configuration already exists. Please review $HA_CFG."
-fi
 
-# Restart HAProxy to apply the new configuration
+# Restarts HAProxy to apply the configuration
 systemctl restart haproxy
-systemctl enable haproxy
