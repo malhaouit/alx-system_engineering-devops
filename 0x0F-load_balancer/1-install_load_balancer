@@ -1,26 +1,23 @@
 #!/usr/bin/env bash
-# Script that Install and configure HAproxy on your lb-01 server.
+# Install and configure HAproxy on your lb-01 server
 
-# Ensure the script is run as root
 if [ "$(id -u)" != "0" ]; then
-    echo "This script must be run as root" 1>&2
-    exit 1
+	    echo "This script must be run as root" 1>&2
+	        exit 1
 fi
 
-# Installing HAProxy
 apt-get update -y
 apt-get install --no-install-recommends -y software-properties-common
 add-apt-repository -y ppa:vbernat/haproxy-2.6
 apt-get update -y
 apt-get install -y haproxy=2.6.*
 
-# Dynamically update the HAProxy configuration
 HA_CFG="/etc/haproxy/haproxy.cfg"
 FRONT_EXISTS=$(grep -c "frontend http_front" "$HA_CFG")
 BACK_EXISTS=$(grep -c "backend http_back" "$HA_CFG")
 
 if [ "$FRONT_EXISTS" -eq 0 ] && [ "$BACK_EXISTS" -eq 0 ]; then
-    cat <<EOF >> "$HA_CFG"
+	    cat <<EOF >> "$HA_CFG"
 
 frontend http_front
     bind *:80
