@@ -1,69 +1,63 @@
 #!/usr/bin/env bash
-# Script to install and configure HAProxy as a load balancer
+# Install and configure HAProxy on lb-01 server
 
-echo "Checking if HAProxy is installed..."
-if ! command -v haproxy &> /dev/null; then
-	echo "HAProxy not found. Installing..."
-	apt-get update -y
-	apt-get install -y haproxy
-else
-	echo "HAProxy is already installed. Skipping installation."
+# Exit if any command fails
+set -e
+
+# Ensure the script is run as root
+if [ "$(id -u)" != "0" ]; then
+	echo "This script must be run as root." >&2
+	exit 1
 fi
 
-# Enables HAProxy to start at boot
-echo "Enabling HAProxy to start at boot..."
-systemctl enable haproxy
+echo "Installing HAProxy..."
+apt-get update -y
+apt-get install -y haproxy
 
+echo "Configuring HAProxy for load balancing..."
 # Backup the current HAProxy configuration
-echo "Backing up current HAProxy configuration..."
-cp /etc/haproxy/haproxy.cfg{,.backup_"$(date +%F-%H-%M-%S)"}
+cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.backup
 
-echo "Configuring HAProxy..."
-# New HAProxy configuration
+STUDENT_ID=512139
+
+# Update HAProxy configuration
 cat << EOF > /etc/haproxy/haproxy.cfg
 global
-	log /dev/log local0 notice
-	log /dev/log local1 info
-	chroot /var/lib/haproxy
-	stats socket /run/haproxy/admin.sock mode 660 level admin expose-fd listeners
-	user haproxy
-	group haproxy
-	daemon
-	maxconn 256
+    log /dev/log local0
+    log /dev/log local1 notice
+    chroot /var/lib/haproxy
+    user haproxy
+    group haproxy
+    daemon
 
 defaults
-	log     global
-	mode    http
-	option  httplog
-	option  dontlognull
-	timeout connect 5000ms
-	timeout client  50000ms
-	timeout server  50000ms
-	errorfile 400 /etc/haproxy/errors/400.http
-	errorfile 403 /etc/haproxy/errors/403.http
-	errorfile 408 /etc/haproxy/errors/408.http
-	errorfile 500 /etc/haproxy/errors/500.http
-	errorfile 502 /etc/haproxy/errors/502.http
-	errorfile 503 /etc/haproxy/errors/503.http
-	errorfile 504 /etc/haproxy/errors/504.http
+    mode http
+    log global
+    option httplog
+    option dontlognull
+    timeout connect 5000ms
+    timeout client  50000ms
+    timeout server  50000ms
+    errorfile 400 /etc/haproxy/errors/400.http
+    errorfile 403 /etc/haproxy/errors/403.http
+    errorfile 408 /etc/haproxy/errors/408.http
+    errorfile 500 /etc/haproxy/errors/500.http
+    errorfile 502 /etc/haproxy/errors/502.http
+    errorfile 503 /etc/haproxy/errors/503.http
+    errorfile 504 /etc/haproxy/errors/504.http
 
-frontend am-trustdev.tech-frontend
-	bind *:80
-	default_backend am-trustdev.tech-backend
+frontend http_front
+    bind *:80
+    default_backend servers
 
-backend am-trustdev.tech-backend
-	balance roundrobin
-	server 512139-web-01 54.174.153.120:80 check
-	server 512139-web-02 18.204.14.78:80 check
+backend servers
+    balance roundrobin
+    server ${STUDENT_ID}-web-01 54.174.153.120:80 check
+    server ${STUDENT_ID}-web-02 18.204.14.78:80 check
 EOF
 
-# Checks if HAProxy is active before attempting to restart
-if systemctl is-active --quiet haproxy; then
-	echo "Restarting HAProxy to apply new configuration..."
-	systemctl restart haproxy
-else
-	echo "Starting HAProxy..."
-	systemctl start haproxy
-fi
+# Ensure HAProxy is enabled and restart to apply the configuration
+systemctl enable haproxy
+systemctl restart haproxy
 
-echo "HAProxy configuration completed."
+echo "HAProxy has been installed and configured successfully."
