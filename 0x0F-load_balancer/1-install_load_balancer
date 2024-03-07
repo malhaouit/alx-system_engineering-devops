@@ -1,41 +1,36 @@
 #!/usr/bin/env bash
-# Install and configure HAProxy on lb-01 server
+# Install and configure HAproxy
 
-# Exit if any command fails
-set -e
-
-# Ensure the script is run as root
-if [ "$(id -u)" != "0" ]; then
-	echo "This script must be run as root." >&2
-	exit 1
-fi
-
-echo "Installing HAProxy..."
-apt-get update -y
+apt-get -y update
 apt-get install -y haproxy
 
-echo "Configuring HAProxy for load balancing..."
-# Backup the current HAProxy configuration
-cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.backup
+# Backup default server config file
+sudo cp /etc/haproxy/haproxy.cfg haproxy_default.backup
 
-STUDENT_ID=512139
+server_config=\
+"
+defaults
+	mode http
+	timeout client 15s
+	timeout connect 10s
+	timeout server 15s
+	timeout http-request 10s
 
-# Update HAProxy configuration
-cat << EOF >> /etc/haproxy/haproxy.cfg
+frontend am-trustdev.tech-frontend
+	bind *:80
+	default_backend am-trustdev.tech-backend
 
-frontend http_front
-    bind *:80
-    default_backend servers
+backend am-trustdev.tech-backend
+	balance roundrobin
+	server 512139-web-01 54.174.153.120:80 check
+	server 512139-web-02 18.204.14.78:80 check
+"
 
-backend servers
-    balance roundrobin
-    server ${STUDENT_ID}-web-01 54.174.153.120:80 check
-    server ${STUDENT_ID}-web-02 18.204.14.78:80 check
-EOF
+# shellcheck disable=SC2154
+echo "$server_config" | sudo dd status=none of=/etc/haproxy/haproxy.cfg
 
+# enable haproxy to be started by init script
 echo "ENABLED=1" | sudo dd status=none of=/etc/default/haproxy
-
-echo "configured - Roundrobin On web-01 & web-02"
 
 if [ "$(pgrep -c haproxy)" -le 0 ]; then
 	sudo service haproxy start
