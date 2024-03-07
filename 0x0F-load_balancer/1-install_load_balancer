@@ -21,30 +21,7 @@ cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.backup
 STUDENT_ID=512139
 
 # Update HAProxy configuration
-cat << EOF > /etc/haproxy/haproxy.cfg
-global
-    log /dev/log local0
-    log /dev/log local1 notice
-    chroot /var/lib/haproxy
-    user haproxy
-    group haproxy
-    daemon
-
-defaults
-    mode http
-    log global
-    option httplog
-    option dontlognull
-    timeout connect 5000ms
-    timeout client  50000ms
-    timeout server  50000ms
-    errorfile 400 /etc/haproxy/errors/400.http
-    errorfile 403 /etc/haproxy/errors/403.http
-    errorfile 408 /etc/haproxy/errors/408.http
-    errorfile 500 /etc/haproxy/errors/500.http
-    errorfile 502 /etc/haproxy/errors/502.http
-    errorfile 503 /etc/haproxy/errors/503.http
-    errorfile 504 /etc/haproxy/errors/504.http
+cat << EOF >> /etc/haproxy/haproxy.cfg
 
 frontend http_front
     bind *:80
@@ -56,8 +33,12 @@ backend servers
     server ${STUDENT_ID}-web-02 18.204.14.78:80 check
 EOF
 
-# Ensure HAProxy is enabled and restart to apply the configuration
-systemctl enable haproxy
-systemctl restart haproxy
+echo "ENABLED=1" | sudo dd status=none of=/etc/default/haproxy
 
-echo "HAProxy has been installed and configured successfully."
+echo "configured - Roundrobin On web-01 & web-02"
+
+if [ "$(pgrep -c haproxy)" -le 0 ]; then
+	sudo service haproxy start
+else
+	sudo service haproxy restart
+fi
