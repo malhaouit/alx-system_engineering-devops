@@ -1,26 +1,34 @@
 # Automates the task of creating a custom HTTP header response but Puppet.
 
-exec { 'append-custom-header':
-  command => "echo '\n    add_header X-Served-By \$hostname;' >> /etc/nginx/sites-available/default",
-  path    => ['/bin', '/usr/bin'],
-  unless  => "grep -Fxq '    add_header X-Served-By \$hostname;' /etc/nginx/sites-available/default",
-  require => Package['nginx'],
-  notify  => Service['nginx'],
-}
-
 package { 'nginx':
   ensure => installed,
 }
 
-service { 'nginx':
-  ensure => running,
-  enable => true,
+file_line { 'add-custom-header':
+  path               => '/etc/nginx/sites-available/default',
+  line               => '    add_header X-Served-By $hostname;',
+  match              => '^\\s*add_header X-Served-By',
+  append_on_no_match => true,
+  notify             => Exec['reload-nginx'],
+  require            => Package['nginx'],
 }
 
-file { '/etc/nginx/sites-available/default-permissions':
-  ensure => file,
-  path   => '/etc/nginx/sites-available/default',
-  owner  => 'root',
-  group  => 'root',
-  mode   => '0644',
+file { '/etc/nginx/sites-available/default':
+  ensure  => file,
+  owner   => 'root',
+  group   => 'root',
+  mode    => '0644',
+  require => Package['nginx'],
+}
+
+service { 'nginx':
+  ensure  => running,
+  enable  => true,
+  require => File_line['add-custom-header'],
+}
+
+exec { 'reload-nginx':
+  command     => '/usr/sbin/nginx -s reload',
+  path        => ['/usr/bin', '/usr/sbin'],
+  refreshonly => true,
 }
