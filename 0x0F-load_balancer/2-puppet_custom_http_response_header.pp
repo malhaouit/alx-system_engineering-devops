@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 # Automates the task of creating a custom HTTP header response but Puppet.
 
 exec { 'append-custom-header':
