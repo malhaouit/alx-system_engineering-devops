@@ -4,8 +4,6 @@ package { 'nginx':
   ensure => installed,
 }
 
-$hostname = $facts['networking']['hostname']
-
 file_line { 'nginx_custom_header':
     path    => '/etc/nginx/sites-available/default',
     line    => "add_header X-Served-By '${hostname}';",
