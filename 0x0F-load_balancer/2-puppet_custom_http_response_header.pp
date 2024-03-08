@@ -7,9 +7,9 @@ package { 'nginx':
 file_line { 'add-custom-header':
   path               => '/etc/nginx/sites-available/default',
   line               => '    add_header X-Served-By $hostname;',
+  after              => 'listen 80 default_server;',
   match              => '^\\s*add_header X-Served-By',
   append_on_no_match => true,
-  notify             => Exec['reload-nginx'],
   require            => Package['nginx'],
 }
 
@@ -25,10 +25,4 @@ service { 'nginx':
   ensure  => running,
   enable  => true,
   require => File_line['add-custom-header'],
-}
-
-exec { 'reload-nginx':
-  command     => '/usr/sbin/nginx -s reload',
-  path        => ['/usr/bin', '/usr/sbin'],
-  refreshonly => true,
 }
