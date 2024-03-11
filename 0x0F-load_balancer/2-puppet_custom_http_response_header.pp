@@ -1,20 +1,36 @@
 # Add a custom HTTP header with Puppet
 
-package { 'nginx':
-  ensure => installed,
+exec { 'apt-get-update':
+  command => '/usr/bin/apt-get update',
 }
 
-file_line { 'nginx_custom_header':
-    path    => '/etc/nginx/sites-available/default',
-    line    => "add_header X-Served-By '${hostname}';",
-    match   => '^(\s*)#?add_header X-Served-By',
-    replace => true,
-    require => Package['nginx'],
-    notify  => Service['nginx'],
+package { 'nginx':
+  ensure  => installed,
+  require => Exec['apt-get-update'],
+}
+
+file_line { 'after add header':
+  ensure  => 'present',
+  path    => '/etc/nginx/sites-available/default',
+  after   => 'listen 80 default_server;',
+  line    => 'rewrite ^/redirect_me https://sketchfab.com/bluepeno/models permanent;',
+  require => Package['nginx'],
+}
+
+file_line { 'after listen 80':
+  ensure  => 'present',
+  path    => '/etc/nginx/sites-available/default',
+  after   => 'listen 80 default_server;',
+  line    => 'add_header X-Served-By $hostname;',
+  require => Package['nginx'],
+}
+
+file { '/var/www/html/index.html':
+  content => 'Hello World!',
+  require => Package['nginx'],
 }
 
 service { 'nginx':
   ensure  => running,
-  enable  => true,
-  require => File_line['nginx_custom_header'],
+  require => Package['nginx'],
 }
