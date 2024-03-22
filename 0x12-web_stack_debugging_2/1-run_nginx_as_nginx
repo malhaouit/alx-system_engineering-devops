@@ -1,8 +1,19 @@
 #!/usr/bin/env bash
 # Fix this container so that Nginx is running as the nginx user.
 
-sed -i "s/#user www-data/user nginx/" /etc/nginx/nginx.conf
-sed -i "s/80/8080/g" /etc/nginx/sites-available/default
+NGINX_CONF='/etc/nginx/nginx.conf'
+SED_CMD='s/^user .*/user nginx;/'
+
+# Update the user directive
+sed -i "$SED_CMD" $NGINX_CONF
+
+# Find all server blocks to update the listen directive
+find /etc/nginx/sites-available/ -type f | while IFS= read -r SERVER_BLOCK; do
+        # Update IPv4 listen directive
+        sed -i 's/listen[ \t]*80 default_server;/listen 8080 default_server;/' "$SERVER_BLOCK"
+        # Update IPv6 listen directive
+        sed -i 's/listen[ \t]*\[\:\:\]\:80 default_server;/listen [::]:8080 default_server;/' "$SERVER_BLOCK"
+done
 chmod 644 /etc/nginx/nginx.conf
-pkill apache2
+pkill nginx
 sudo -u nginx service nginx start
