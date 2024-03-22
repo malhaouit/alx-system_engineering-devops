@@ -1,22 +1,8 @@
 #!/usr/bin/env bash
 # Fix this container so that Nginx is running as the nginx user.
 
-# Create the 'nginx' user and group if they don't exist
-if ! id -u nginx &> /dev/null; then
-	adduser --system --group --disabled-password nginx
-fi
-
-# Grant ownership of Nginx directories
-chown -R nginx:nginx /etc/nginx /var/lib/nginx
-
-# Configure Nginx user in the configuration file
-sed -i 's/user root;/user nginx;/' /etc/nginx/nginx.conf
-
-# Update Nginx configuration for listening on all IPs (0.0.0.0)
-sed -i 's/listen 80;/listen 8080 0.0.0.0;/' /etc/nginx/nginx.conf
-
-# Set permissions on the configuration file
+sed -i "s/#user www-data/user nginx/" /etc/nginx/nginx.conf
+sed -i "s/80/8080/g" /etc/nginx/sites-available/default
 chmod 644 /etc/nginx/nginx.conf
-
-# Restart Nginx
-service nginx restart
+pkill apache2
+sudo -u nginx service nginx start
