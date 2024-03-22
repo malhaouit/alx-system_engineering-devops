@@ -1,29 +1,22 @@
 #!/usr/bin/env bash
 # Fix this container so that Nginx is running as the nginx user.
 
+# Create the 'nginx' user and group if they don't exist
+if ! id -u nginx &> /dev/null; then
+	adduser --system --group --disabled-password nginx
+fi
+
 # Grant ownership of Nginx directories
 chown -R nginx:nginx /etc/nginx /var/lib/nginx
 
-# Modify Nginx to run as nginx user and listen on port 8080
-NGINX_CONF='/etc/nginx/nginx.conf'
-SED_CMD='s/^user .*/user nginx;/'
+# Configure Nginx user in the configuration file
+sed -i 's/user root;/user nginx;/' /etc/nginx/nginx.conf
 
-# Update the user directive
-sed -i "$SED_CMD" $NGINX_CONF
+# Update Nginx configuration for listening on all IPs (0.0.0.0)
+sed -i 's/listen 80;/listen 8080 0.0.0.0;/' /etc/nginx/nginx.conf
 
-# Find all server blocks to update the listen directive
-find /etc/nginx/sites-available/ -type f | while IFS= read -r SERVER_BLOCK; do
-	# Update IPv4 listen directive
-	sed -i 's/listen[ \t]*80 default_server;/listen 8080 default_server;/' "$SERVER_BLOCK"
-	# Update IPv6 listen directive
-	sed -i 's/listen[ \t]*\[\:\:\]\:80 default_server;/listen [::]:8080 default_server;/' "$SERVER_BLOCK"
-done
-
+# Set permissions on the configuration file
 chmod 644 /etc/nginx/nginx.conf
 
-# Restart Nginx using systemctl if available, otherwise use service
-if command -v systemctl &> /dev/null; then
-        systemctl restart nginx
-elif command -v service &> /dev/null; then
-        service nginx restart
-fi
+# Restart Nginx
+service nginx restart
