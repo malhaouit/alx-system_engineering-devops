@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Fix this container so that Nginx is running as the nginx user.
+
+# Grant ownership of Nginx directories
+chown -R nginx:nginx /etc/nginx /var/lib/nginx
+
+# Modify Nginx to run as nginx user and listen on port 8080
+NGINX_CONF='/etc/nginx/nginx.conf'
+SED_CMD='s/^user .*/user nginx;/'
+
+# Update the user directive
+sed -i "$SED_CMD" $NGINX_CONF
+
+# Find all server blocks to update the listen directive
+find /etc/nginx/sites-available/ -type f | while IFS= read -r SERVER_BLOCK; do
+	# Update IPv4 listen directive
+	sed -i 's/listen[ \t]*80 default_server;/listen 8080 default_server;/' "$SERVER_BLOCK"
+	# Update IPv6 listen directive
+	sed -i 's/listen[ \t]*\[\:\:\]\:80 default_server;/listen [::]:8080 default_server;/' "$SERVER_BLOCK"
+done
+
+chmod 644 /etc/nginx/nginx.conf
+
+# Restart Nginx using systemctl if available, otherwise use service
+if command -v systemctl &> /dev/null; then
+        systemctl restart nginx
+elif command -v service &> /dev/null; then
+        service nginx restart
+fi
