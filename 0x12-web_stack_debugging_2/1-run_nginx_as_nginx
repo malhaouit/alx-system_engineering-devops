@@ -14,6 +14,6 @@ find /etc/nginx/sites-available/ -type f | while IFS= read -r SERVER_BLOCK; do
         # Update IPv6 listen directive
         sed -i 's/listen[ \t]*\[\:\:\]\:80 default_server;/listen [::]:8080 default_server;/' "$SERVER_BLOCK"
 done
+
 chmod 644 /etc/nginx/nginx.conf
-pkill nginx
-sudo -u nginx service nginx start
+sudo -u nginx service nginx restart
