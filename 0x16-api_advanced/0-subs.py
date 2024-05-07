@@ -12,7 +12,7 @@ def number_of_subscribers(subreddit):
     Requests a REDDIT API and returns returns the number of subscribers.
     If an invalid subreddit is given, the function should return 0.
     """
-    url = "https://www.reddit.com/r/{subreddit}/about.json".format(subreddit)
+    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
     headers = {'User-Agent': 'My-Custom-Agent'}
     response = requests.get(url, headers=headers, allow_redirects=False)
     if response.status_code == 200:
