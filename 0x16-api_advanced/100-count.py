@@ -3,8 +3,8 @@
 Count keyword occurrences in subreddit post titles recursively.
 File: 100-count.py
 """
-import requests
 import re
+import requests
 
 
 def count_words(subreddit, word_list, after='', count_dict=None):
